@@ -1,0 +1,27 @@
+// Player.idl : IDL source for Player
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (Player.tlb) and marshalling code.
+
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+import "Interfaces.idl";
+[
+	uuid(8A0BCF58-E2FE-4848-AA91-67CD8A0F6486),
+	version(1.0),
+]
+library PlayerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(49D2736A-ECE8-4A58-8152-D4A7D970210B),		
+		control
+	]
+	coclass Player
+	{
+		[default] interface IPlayer;
+	};
+};
+

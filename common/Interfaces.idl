@@ -1,0 +1,29 @@
+#include "olectl.h"
+import "oaidl.idl";
+import "ocidl.idl";
+
+[object,
+    oleautomation, // use "automation" marshaler (oleaut32.dll)
+    uuid(5B7B0FB5-DC53-4B51-A74B-3DF9ED0646B3)]
+interface IFrame : IUnknown {
+    HRESULT GetId([out, retval] INT * path);
+};
+
+[object,
+    oleautomation, // use "automation" marshaler (oleaut32.dll)
+    uuid(80FD6F04-632C-49D0-909F-E67C9D256FD5)]
+interface IFrameSource : IUnknown {
+    HRESULT GetFrame([out, retval] IFrame ** path);
+};
+
+[
+    object,
+    oleautomation,
+    uuid(3C2A19B4-D971-4300-AE63-FD7EC09D27CC),
+    pointer_default(unique)
+]
+interface IPlayer : IUnknown {
+    HRESULT Initialize(IFrameSource * frameSource);
+    HRESULT Play();
+    HRESULT Pause();
+};
