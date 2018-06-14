@@ -2,7 +2,7 @@
 Sample code to demonstrate unstructured behavior when running a local COM server
 
 ## Issue summary
-While a local single threaded COM server is doing an outgoing calls to a single threaded client, it appears to be able to process it's own message queue. The server state may therefore have changed when the outgoing call returns. 
+While a local single threaded COM server is doing an outgoing call to a single threaded client, it appears to be able to process it's own message queue. The server state may therefore have changed when the outgoing call returns. 
 
 ## Description
 This sample code implements a client application, and a local COM server called 'Player'. The client creates a Player object, and provides the player with a frame data source. The player displays the frame numbers it got from the client. 
