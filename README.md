@@ -30,3 +30,6 @@ Server destruction is a special case, that cause particularly visible effects (n
 * Build projects Client and Player. Player.exe is registered automatically in a post build event.
 * Run Client.exe
 * Two windows should appear, Player and Client. The Player window should show some continuously updating text. 
+
+## References
+[DCOM in Vista specifically processing WM_PAINT messages](https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/5a28a9f5-5711-4efa-843e-e98927fa2b92/dcom-in-vista-specifically-processing-wmpaint-messages?forum=windowsgeneraldevelopmentissues)
