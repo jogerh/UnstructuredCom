@@ -21,12 +21,12 @@ See Player.cpp, Player::RunUpdateLoop(), where the player is spinning on m_frame
 * Two windows should appear, Player and Client. 
 * Attach with a debugger to Player.exe, and put a breakpoint in FinalRelease
 * Click in client window.
-* Observe call stack of the Player.exe, where the outgoing call m_frame->GetId() results in a call to the Player's destructor
+* Observe call stack of the Player.exe, where the outgoing call m_frame->GetId() from Player::RunUpdateLoop() results in a call to the Player's destructor
 ```
     Player.exe!Player::FinalRelease() Line 29   C++
     Player.exe!ATL::CComObject<Player>::~CComObject<Player>() Line 2915 C++
     Player.exe!ATL::CComObject<Player>::`scalar deleting destructor'(unsigned int)  C++
-    Player.exe!ATL::CComObject<Player>::Release() Line 2934 C++
+--->Player.exe!ATL::CComObject<Player>::Release() Line 2934 C++
     ole32.dll!CStdIdentity::ReleaseCtrlUnk() Line 1149  C++
     ole32.dll!CStdMarshal::Disconnect(unsigned long dwType) Line 3608   C++
     ole32.dll!CStdMarshal::HandlePendingDisconnect(HRESULT hr)  C++
@@ -60,7 +60,7 @@ See Player.cpp, Player::RunUpdateLoop(), where the player is spinning on m_frame
     rpcrt4.dll!NdrpClientCall2(struct _MIDL_STUB_DESC const *,unsigned char const *,unsigned char *)    Unknown
     ole32.dll!ObjectStublessClient(void * ParamAddress, __int64 * FloatRegisters, long Method) Line 620 C++
     ole32.dll!ObjectStubless() Line 117 Unknown
-    Player.exe!Player::RunUpdateLoop() Line 16  C++
+--->Player.exe!Player::RunUpdateLoop() Line 16  C++
     Player.exe!PlayerWindow::OnUpdate(unsigned int __formal, unsigned __int64 __formal, __int64 __formal, int & bHandled) Line 35   C++
     Player.exe!PlayerWindow::ProcessWindowMessage(HWND__ * hWnd, unsigned int uMsg, unsigned __int64 wParam, __int64 lParam, __int64 & lResult, unsigned long dwMsgMapID) Line 28   C++
     Player.exe!ATL::CWindowImplBaseT<ATL::CWindow,ATL::CWinTraits<114229248,262400> >::WindowProc(HWND__ * hWnd, unsigned int uMsg, unsigned __int64 wParam, __int64 lParam) Line 3526  C++
