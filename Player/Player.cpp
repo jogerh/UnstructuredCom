@@ -1,51 +1,21 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "PlayerModule.h"
 
-LRESULT Player::OnDestroy(UINT, WPARAM, LPARAM, BOOL& bHandled)
-{
-    Pause();
-    m_frame = nullptr;
-    m_source = nullptr;
-    bHandled = FALSE;
-    return 0;
-}
+static bool s_created = false;
 
-LRESULT Player::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled) {
-    if (s_created && m_source && m_timer != -1) {
+LRESULT Player::RunUpdateLoop() {
+    
+    while(m_frame) {
         
-        m_frame = nullptr;                   // Release frame, before we get a new one from the client. (1)
-        CHECK(m_source->GetFrame(&m_frame)); // This call may have to wait, if client is busy.          (2)
-        ATLASSERT(m_frame != nullptr);       // We are now guaranteed that m_frame is not null          (3)
-       
-        InvalidateRect(nullptr);             // Trigger a redraw                                        (4)
-    }
-    return 0;
-}
-
-LRESULT Player::OnPaint(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
-{
-    std::wstringstream  ss;
-    if (m_frame) {                           // According to (3) above, m_frame can not be nullptr
         int frameNo = 0;
+        if (!s_created) {
+            // We experienced unstructured behavior, because Player was destroyed while main thread is processing
+            Beep(500, 250);
+        }
         CHECK(m_frame->GetId(&frameNo));
-
-        ss << "Showing frame " << frameNo;
     }
-    else {                                   // Still, we sometimes end up here.
-                                             // This indicates that OnPaint is called while 
-                                             // OnTimer is executing m_source->GetFrame(...)
-        ss << "Ops, we don't have a frame (unstructured behavior)";
-    }
-
-    auto str = ss.str();
-
-    PAINTSTRUCT ps = {};
-    auto hdc = BeginPaint(&ps);
-    FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_BACKGROUND));
-    TextOut(hdc, 0, 0, str.data(), static_cast<int>(str.size()));
-    EndPaint(&ps);
-    return 0L;
-
+    
     return S_OK;
 }
 
@@ -57,24 +27,24 @@ HRESULT Player::FinalConstruct()
 
 void Player::FinalRelease()
 {
-    Pause();
+    GetModule()->m_window->SetPlayer(nullptr);
     m_frame = nullptr;
     m_source = nullptr;
-    PostQuitMessage(0);
     s_created = false;
 }
 
 HRESULT Player::Play() {
-    if (m_timer == -1)
-        SetTimer(m_timer = 1, 10, nullptr);
+    // Register player to the main window, 
+    // so we get notified when user clicks
+    // in client window. This will
+    // start the RunUpdateLoop
+    GetModule()->m_window->SetPlayer(this);
+
     return S_OK;
 }
 
 HRESULT Player::Pause() {
-    if (m_timer != -1)
-        KillTimer(m_timer);
-    m_timer = -1;
-    return S_OK;
+    return E_NOTIMPL;
 }
 
 HRESULT Player::Initialize(IFrameSource * source) {
@@ -83,5 +53,7 @@ HRESULT Player::Initialize(IFrameSource * source) {
 
     m_source = CComPtr<IFrameSource>(source);
     CHECK(m_source->GetFrame(&m_frame));
+   
     return S_OK;
 }
+

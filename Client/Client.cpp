@@ -27,11 +27,10 @@ public :
             return hr;
         }
 
-        RECT rcPos = { CW_USEDEFAULT, 0, CW_USEDEFAULT, 0};
         HMENU hMenu = LoadMenu(_AtlBaseModule.GetResourceInstance(), MAKEINTRESOURCE(IDR_MENU1));
 
         m_window = std::make_unique<ClientWindow>();
-        auto wnd = m_window->Create(GetDesktopWindow(), rcPos, _T("Client"), 0, 0, hMenu);
+        auto wnd = m_window->Create(GetDesktopWindow(), 0, _T("Client"), 0, 0, hMenu);
         if (!IsWindow(wnd))
             return E_FAIL;
         
