@@ -79,5 +79,6 @@ See Player.cpp, Player::RunUpdateLoop(), where the player is spinning on m_frame
     ntdll.dll!RtlUserThreadStart() Unknown
 ```
 
+
 ## References
 [DCOM in Vista specifically processing WM_PAINT messages](https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/5a28a9f5-5711-4efa-843e-e98927fa2b92/dcom-in-vista-specifically-processing-wmpaint-messages?forum=windowsgeneraldevelopmentissues)
