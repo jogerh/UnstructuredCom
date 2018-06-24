@@ -22,7 +22,7 @@ See Player.cpp, Player::RunUpdateLoop(), where the player is spinning on m_frame
 * Attach with a debugger to Player.exe, and put a breakpoint in FinalRelease
 * Click in client window.
 * Observe call stack of the Player.exe, where the outgoing call m_frame->GetId() results in a call to the Player's destructor
-
+```
     Player.exe!Player::FinalRelease() Line 29   C++
     Player.exe!ATL::CComObject<Player>::~CComObject<Player>() Line 2915 C++
     Player.exe!ATL::CComObject<Player>::`scalar deleting destructor'(unsigned int)  C++
@@ -77,7 +77,7 @@ See Player.cpp, Player::RunUpdateLoop(), where the player is spinning on m_frame
     Player.exe!wWinMainCRTStartup() Line 17 C++
     kernel32.dll!BaseThreadInitThunk() Unknown
     ntdll.dll!RtlUserThreadStart() Unknown
-
+```
 
 ## References
 [DCOM in Vista specifically processing WM_PAINT messages](https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/5a28a9f5-5711-4efa-843e-e98927fa2b92/dcom-in-vista-specifically-processing-wmpaint-messages?forum=windowsgeneraldevelopmentissues)
