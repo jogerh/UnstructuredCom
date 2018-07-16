@@ -20,7 +20,8 @@ public:
 
     void SetPlayer(Player * player) {
         m_player = player;
-        PostMessage(WM_UPDATE);
+        if (m_player)
+            PostMessage(WM_UPDATE);
     }
 
     DECLARE_WND_CLASS(L"PlayerWindow");
