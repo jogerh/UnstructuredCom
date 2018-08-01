@@ -14,6 +14,9 @@ Since the player is single threaded, it is surprising that it is able to run it'
 ## Interesting code snippets:
 See Player.cpp, Player::RunUpdateLoop(), where the player is spinning on m_frame->GetId(). 
 
+## Sequence diagram
+![Sequence diagram](doc/SequenceDiagram.png?raw=true "Sequence diagram")
+
 ## Build/run instructions
 
 * Build projects Client and Player. Player.exe is registered automatically in a post build event.
