@@ -1,0 +1,110 @@
+@startuml
+hide footbox
+skinparam sequenceMessageAlign center
+skinparam dpi 160
+actor User 
+
+box "Client process" #LightBlue
+    participant Client
+    participant FrameSource
+    participant Frame
+end box
+
+box "Server process"
+    participant Player
+    participant PlayerWindow
+end box
+
+== Initialization ==
+
+
+create PlayerWindow
+
+activate Client
+    create Player
+    Client -> Player: CoCreateInstance (LOCAL_SERVER)
+
+    create FrameSource
+    Client -> FrameSource: CreateInstance
+
+    Client -> Player: Initialize (frameSource)
+    activate Player
+        Player -> FrameSource: GetFrame
+        activate FrameSource
+            create Frame
+            FrameSource -> Frame: CreateInstance
+            FrameSource --> Player: Frame object
+        deactivate FrameSource
+    deactivate Player
+
+    Client -> Player: Play
+deactivate Client
+
+activate Player
+    Player -> PlayerWindow: SetPlayer
+deactivate Player
+
+activate PlayerWindow
+    PlayerWindow ->>] : PostMessage(WM_UPDATE)
+deactivate PlayerWindow
+
+== On posted message WM_UPDATE ==
+
+PlayerWindow <-]: On WM_UPDATE
+activate PlayerWindow
+    PlayerWindow -> Player: RunUpdateLoop
+deactivate PlayerWindow
+
+activate Player
+    loop Infinite
+            Player -> Frame: GetId
+            activate Frame
+            deactivate Frame
+    end
+deactivate Player
+
+note right
+    RunUpdateLoop repeatedly calls Frame::GetId(). 
+    An infinite loop is used to increase probability
+    of reproducing the issue, but is not required. 
+end note 
+
+
+== Releasing player by clicking in Client window == 
+
+User -> Client: Click in window
+activate Client
+
+Client -> Player: Release
+deactivate Client
+
+loop Infinite
+    Player -> Frame: GetId
+    activate Player
+        activate Frame
+            Frame -> Player: FinalRelease
+            note right
+                The Player::FinalRelease call is unexpectedly 
+                processed while the player is calling GetId 
+                on the Frame object.  
+            end note
+            activate Player
+            Player -> Frame: FinalRelease
+        destroy Frame
+
+        Player -> FrameSource: FinalRelease
+        Frame --> Player 
+
+    deactivate Player 
+    destroy FrameSource
+    destroy Player
+
+    Player [#FF0000]-> Player: <color:red>Crash</color>
+    note right
+        Although Player object was destroyed, 
+        the loop can not be stopped, and continue 
+        running on garbage data. (The entire 
+        Player object is destroyed).
+    end note
+end
+@enduml
