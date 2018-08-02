@@ -85,3 +85,6 @@ See Player.cpp, Player::RunUpdateLoop(), where the player is spinning on m_frame
 
 ## References
 [DCOM in Vista specifically processing WM_PAINT messages](https://social.msdn.microsoft.com/Forums/windowsdesktop/en-US/5a28a9f5-5711-4efa-843e-e98927fa2b92/dcom-in-vista-specifically-processing-wmpaint-messages?forum=windowsgeneraldevelopmentissues)
+[COM, Re-entrancy, and Message Pumping](https://blogs.msdn.microsoft.com/timng/2006/09/07/com-re-entrancy-and-message-pumping/)
+[How do I ensure no re-entrant access to my main-STA COM server (C++)?](https://stackoverflow.com/questions/2272715/how-do-i-ensure-no-re-entrant-access-to-my-main-sta-com-server-c)
+
