@@ -275,6 +275,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\common.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerModule.h" />
     <ClInclude Include="Player_i.h" />
