@@ -20,6 +20,7 @@ public :
     HRESULT PreMessageLoop(int nShowCmd) throw()
     {
         DisableComCatchExceptions();
+        EnableFastRundown();
 
         HRESULT hr = __super::PreMessageLoop(nShowCmd);
         if (FAILED(hr))

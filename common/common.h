@@ -26,3 +26,13 @@ inline void DisableComCatchExceptions() {
         hr = pGlobalOptions->Set(COMGLB_EXCEPTION_HANDLING, COMGLB_EXCEPTION_DONOT_HANDLE);
     }
 }
+
+
+inline void EnableFastRundown() {
+    ATL::CComPtr<IGlobalOptions> pGlobalOptions;
+    auto hr = pGlobalOptions.CoCreateInstance(CLSID_GlobalOptions, NULL, CLSCTX_INPROC_SERVER);
+    if (SUCCEEDED(hr))
+    {
+        hr = pGlobalOptions->Set(COMGLB_RO_SETTINGS, COMGLB_FAST_RUNDOWN);
+    }
+}
