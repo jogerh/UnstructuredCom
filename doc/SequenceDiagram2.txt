@@ -1,0 +1,66 @@
+@startuml
+hide footbox
+skinparam sequenceMessageAlign center
+skinparam dpi 160
+actor User 
+
+box "Client process" #LightBlue
+    participant A
+end box
+box "Proxy/Stub/Channel"
+    participant COM
+end box 
+box "Server process" #LightPink
+    participant B
+end box
+
+
+== Expected ==
+A -> COM: f_B
+COM -> B: f_B
+B ->>: PostMessage(WM_CUSTOM1)
+A -> COM: f_B
+COM -> B: f_B
+B ->>]: PostMessage(WM_CUSTOM2)
+...
+B <-]: OnCustom1
+B -> COM: f_A
+COM -> A: f_A
+COM <-- A
+B <-- COM
+B <-]: OnCustom2
+B -> COM: f_A
+COM -> A: f_A
+COM <-- A
+B <-- COM
+note right
+    Expect that messages WM_CUSTOMX are handled 
+    by the OnCustomX message handler in sequence
+end note 
+
+
+== Actual == 
+A -> COM: f_B
+COM -> B: f_B
+B ->>: PostMessage(WM_CUSTOM1)
+A -> COM: f_B
+COM -> B: f_B
+B ->>]: PostMessage(WM_CUSTOM2)
+...
+B <-]: OnCustom1
+B -> COM: f_A
+COM -> B: OnCustom2
+note right
+    While calling f_A, from WM_CUSTOM1, the COM framework pumps 
+    message WM_CUSTOM2, calling OnCustom2
+end note 
+B -> COM: f_A
+COM -> A: f_A
+A --> COM
+COM --> B
+B-->COM: finish OnCustom2
+COM->A: f_A
+A--> COM
+COM --> B: Finish OnCustom1
+
+@enduml
