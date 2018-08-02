@@ -14,6 +14,11 @@ HRESULT Frame::GetId(int * id) {
     return S_OK;
 }
 
+void Frame::FinalRelease()
+{
+    MessageBox(0, L"CFrameSourceImpl::FinalRelease was called", L"Info", MB_OK);
+}
+
 HRESULT CFrameSourceImpl::GetFrame(IFrame ** frame) {
     if (!frame)
         return E_POINTER;   
@@ -22,3 +27,4 @@ HRESULT CFrameSourceImpl::GetFrame(IFrame ** frame) {
     *frame = tmp.Detach();
     return S_OK;
 }
+

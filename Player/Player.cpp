@@ -14,6 +14,10 @@ LRESULT Player::RunUpdateLoop() {
             Beep(500, 250);
         }
         CHECK(m_frame->GetId(&frameNo));
+
+        // Additional code to trigger the delayed cleanup in Client's FinalRelease functions
+        int * crashme = nullptr;
+        *crashme = 3;
     }
     
     return S_OK;

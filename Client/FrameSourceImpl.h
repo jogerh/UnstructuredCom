@@ -14,6 +14,7 @@ public:
 
     Frame();
     HRESULT STDMETHODCALLTYPE GetId(int * id) override;
+    void FinalRelease();
 
 private:
     int m_counter = 0;
