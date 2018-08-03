@@ -23,3 +23,11 @@ HRESULT CFrameSourceImpl::GetFrame(IFrame ** frame) {
     *frame = tmp.Detach();
     return S_OK;
 }
+
+HRESULT CFrameSourceImpl::GetFrameCount(unsigned int * count) {
+    if (!count)
+        return E_POINTER;
+
+    *count = m_frame_count;
+    return S_OK;
+}

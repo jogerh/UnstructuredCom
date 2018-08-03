@@ -14,6 +14,7 @@ interface IFrame : IUnknown {
     uuid(80FD6F04-632C-49D0-909F-E67C9D256FD5)]
 interface IFrameSource : IUnknown {
     HRESULT GetFrame([out, retval] IFrame ** path);
+    HRESULT GetFrameCount([out, retval] unsigned int * count);
 };
 
 [

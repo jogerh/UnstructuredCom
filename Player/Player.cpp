@@ -10,6 +10,12 @@ LRESULT Player::OnDestroy(UINT, WPARAM, LPARAM, BOOL& bHandled)
     return 0;
 }
 
+LRESULT Player::OnInitialized(UINT, WPARAM, LPARAM, BOOL&) {
+    if (m_source)
+        m_source->GetFrameCount(&m_frame_count);
+    return 0;
+}
+
 LRESULT Player::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled) {
     if (s_created && m_source && m_timer != -1) {
         
@@ -45,8 +51,6 @@ LRESULT Player::OnPaint(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOO
     TextOut(hdc, 0, 0, str.data(), static_cast<int>(str.size()));
     EndPaint(&ps);
     return 0L;
-
-    return S_OK;
 }
 
 HRESULT Player::FinalConstruct()
@@ -65,6 +69,9 @@ void Player::FinalRelease()
 }
 
 HRESULT Player::Play() {
+    if (m_frame_count == 0) 
+        return S_OK; // Nothing to play
+
     if (m_timer == -1)
         SetTimer(m_timer = 1, 10, nullptr);
     return S_OK;
@@ -82,6 +89,6 @@ HRESULT Player::Initialize(IFrameSource * source) {
         return E_POINTER;
 
     m_source = CComPtr<IFrameSource>(source);
-    CHECK(m_source->GetFrame(&m_frame));
+    PostMessage(WM_INITIALIZED, 0, 0);
     return S_OK;
 }

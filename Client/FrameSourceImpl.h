@@ -30,5 +30,9 @@ public:
     END_COM_MAP()
 
     HRESULT STDMETHODCALLTYPE GetFrame(IFrame ** frame) override;
+    HRESULT STDMETHODCALLTYPE GetFrameCount(unsigned int *count) override;
+
+private:
+    const unsigned int m_frame_count = 100;
 };
 
