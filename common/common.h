@@ -14,15 +14,12 @@ static ATL::CComPtr<T> CreateLocalInstance() {
 }
 
 inline void CHECK(HRESULT hr) {
-    if (!SUCCEEDED(hr))
+    if (FAILED(hr))
         throw std::runtime_error("Com call failed");
 }
 
 inline void DisableComCatchExceptions() {
-    ATL::CComPtr<IGlobalOptions> pGlobalOptions;
-    auto hr = pGlobalOptions.CoCreateInstance(CLSID_GlobalOptions, NULL, CLSCTX_INPROC_SERVER);
-    if (SUCCEEDED(hr))
-    {
-        hr = pGlobalOptions->Set(COMGLB_EXCEPTION_HANDLING, COMGLB_EXCEPTION_DONOT_HANDLE);
-    }
+    ATL::CComPtr<IGlobalOptions> globalOptions;
+    CHECK(globalOptions.CoCreateInstance(CLSID_GlobalOptions, NULL, CLSCTX_INPROC_SERVER));
+    CHECK(globalOptions->Set(COMGLB_EXCEPTION_HANDLING, COMGLB_EXCEPTION_DONOT_HANDLE));
 }
