@@ -57,6 +57,9 @@
     <ClInclude Include="PlayerModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Player.rc">

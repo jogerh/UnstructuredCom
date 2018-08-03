@@ -237,6 +237,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\common\common.h" />
     <ClInclude Include="ClientWindow.h" />
     <ClInclude Include="FrameSourceImpl.h" />
     <ClInclude Include="Resource.h" />
