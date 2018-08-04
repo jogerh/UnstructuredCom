@@ -213,6 +213,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\common.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="FrameSourceImpl.cpp" />
     <ClCompile Include="stdafx.cpp">

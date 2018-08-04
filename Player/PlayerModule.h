@@ -1,6 +1,7 @@
 #pragma once
 #include <atlwin.h>
 #include "Player.h"
+#include "common.h"
 #include <memory>
 #define WM_UPDATE WM_USER+1
 class Player;
@@ -11,6 +12,7 @@ public:
         RECT rect = { 0, 0, 600, 400 };
         Create(NULL, &rect, L"Player");
         ShowWindow(SW_SHOW);
+        m_msgfilter = CreateLocalInstance<MessageFilter>();
     }
 
     ~PlayerWindow() {
@@ -38,6 +40,7 @@ private:
 
 private:
     Player * m_player = nullptr;
+    CComPtr<MessageFilter> m_msgfilter;
 };
 
 
@@ -48,8 +51,8 @@ public:
     DECLARE_REGISTRY_APPID_RESOURCEID(IDR_PLAYER, "{A8FB7E99-B022-49A3-B329-E2DDF3FF64B8}")
     HRESULT Run(_In_ int nShowCmd = SW_HIDE) throw() {
         DisableComCatchExceptions();
-        //while (!IsDebuggerPresent())
-        //    Sleep(100);
+        while (!IsDebuggerPresent())
+            Sleep(100);
         return ATL::CAtlExeModuleT< CPlayerModule >::Run(nShowCmd);
     }
 

@@ -46,6 +46,7 @@ public:
     LRESULT OnCreate(UINT, WPARAM, LPARAM, BOOL& handled)
     {
         try {
+            m_filter = CreateLocalInstance<MessageFilter>();
             CComPtr<IUnknown> ctrl;
             CHECK(ctrl.CoCreateInstance(L"Player", nullptr, CLSCTX_LOCAL_SERVER)); // Create a Player instance in a separate process
             CHECK(ctrl.QueryInterface(&m_player));
@@ -63,6 +64,7 @@ public:
     }
 
 private:
+    CComPtr<IMessageFilter> m_filter;
     CComPtr<IPlayer> m_player;
     CComPtr<IFrameSource> m_source;
 };

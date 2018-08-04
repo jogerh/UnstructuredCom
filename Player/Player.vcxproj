@@ -237,6 +237,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\common.cpp" />
     <ClCompile Include="PlayerModule.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player_i.c">
