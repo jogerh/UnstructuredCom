@@ -55,6 +55,8 @@ LRESULT Player::OnPaint(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOO
 
 HRESULT Player::FinalConstruct()
 {
+    m_message_filter = CreateLocalInstance<CMyMessageFilter>();
+    CoRegisterMessageFilter(m_message_filter, nullptr);
     s_created = true;
     return S_OK;
 }

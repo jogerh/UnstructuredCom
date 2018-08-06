@@ -237,6 +237,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MessageFilter.cpp" />
     <ClCompile Include="PlayerModule.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Player_i.c">
@@ -275,6 +276,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MessageFilter.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Player_i.h" />
     <ClInclude Include="Resource.h" />

@@ -7,6 +7,7 @@
 #include "Client_i.h"
 #include "Client_i.c"
 #include <memory>
+#include "MessageFilter.h"
 
 using namespace ATL;
 
@@ -30,6 +31,9 @@ public :
         RECT rcPos = { CW_USEDEFAULT, 0, CW_USEDEFAULT, 0};
         HMENU hMenu = LoadMenu(_AtlBaseModule.GetResourceInstance(), MAKEINTRESOURCE(IDR_MENU1));
 
+        m_message_filter = CreateLocalInstance<CMyMessageFilter>();
+        CoRegisterMessageFilter(m_message_filter, nullptr);
+
         m_window = std::make_unique<ClientWindow>();
         auto wnd = m_window->Create(GetDesktopWindow(), rcPos, _T("Client"), 0, 0, hMenu);
         if (!IsWindow(wnd))
@@ -41,6 +45,7 @@ public :
     }
 
     std::unique_ptr<ClientWindow> m_window;
+    CComPtr<CMyMessageFilter> m_message_filter;
 };
 
 CClientModule _AtlModule;

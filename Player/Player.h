@@ -5,6 +5,8 @@
 #include "Player_i.h"
 #include <atlbase.h>
 #include "../common/common.h"
+#include "MessageFilter.h"
+
 using namespace ATL;
 
 static bool s_created = false;
@@ -72,6 +74,7 @@ private:
     CComPtr<IFrameSource> m_source;
     int m_timer = -1;
     unsigned int m_frame_count = 0;
+    CComPtr<CMyMessageFilter> m_message_filter;
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(Player), Player)
