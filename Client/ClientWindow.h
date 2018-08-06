@@ -21,7 +21,6 @@ public:
 
     LRESULT OnDestroy(UINT, WPARAM, LPARAM, BOOL& bHandled)
     {
-        m_player->Pause();
         m_player.Release();
         bHandled = FALSE;
         return 0;
