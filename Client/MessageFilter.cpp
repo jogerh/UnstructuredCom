@@ -19,7 +19,7 @@ DWORD CMyMessageFilter::RetryRejectedCall(
     if (dwRejectType == SERVERCALL_REJECTED)
         return -1; //indicates that the call should be canceled
 
-    return dwTimeOut;
+    return 0;
 }
 
 DWORD CMyMessageFilter::MessagePending(
