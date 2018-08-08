@@ -1,5 +1,10 @@
 #include "stdafx.h"
 #include "Player.h"
+#include <cassert>
+
+namespace {
+    bool s_isGettingFrameCount = false;
+}
 
 LRESULT Player::OnDestroy(UINT, WPARAM, LPARAM, BOOL& bHandled)
 {
@@ -11,8 +16,11 @@ LRESULT Player::OnDestroy(UINT, WPARAM, LPARAM, BOOL& bHandled)
 }
 
 LRESULT Player::OnInitialized(UINT, WPARAM, LPARAM, BOOL&) {
-    if (m_source)
+    if (m_source) {
+        s_isGettingFrameCount = true;
         m_source->GetFrameCount(&m_frame_count);
+        s_isGettingFrameCount = false;
+    }
     return 0;
 }
 
@@ -49,6 +57,7 @@ void Player::FinalRelease()
 }
 
 HRESULT Player::Play() {
+    assert(!s_isGettingFrameCount);
     if (m_frame_count == 0) 
         return S_OK; // Nothing to play
 
