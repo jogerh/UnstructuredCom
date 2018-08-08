@@ -17,14 +17,12 @@ class PlayerWindow : public ATL::CWindowImpl<PlayerWindow, ATL::CWindow, ATL::CF
 public:
     DECLARE_WND_CLASS(L"PlayerWindow");
     BEGIN_MSG_MAP(PlayerWindow)
-        MESSAGE_HANDLER(WM_TIMER, OnTimer)
         MESSAGE_HANDLER(WM_PAINT, OnPaint)
         MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
         MESSAGE_HANDLER(WM_INITIALIZED, OnInitialized)
     END_MSG_MAP()
 
 protected:
-    virtual LRESULT OnTimer(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) = 0;
     virtual LRESULT OnPaint(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) = 0;
     virtual LRESULT OnDestroy(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) = 0;
     virtual LRESULT OnInitialized(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) = 0;
@@ -56,7 +54,6 @@ public:
     END_COM_MAP()
 
 public:
-    LRESULT OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHandled) override;
     LRESULT OnPaint(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) override;
     LRESULT OnDestroy(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) override;
     LRESULT OnInitialized(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/) override;
@@ -72,7 +69,6 @@ public:
 private:
     CComPtr<IFrame> m_frame;
     CComPtr<IFrameSource> m_source;
-    int m_timer = -1;
     unsigned int m_frame_count = 0;
     CComPtr<CMyMessageFilter> m_message_filter;
 };

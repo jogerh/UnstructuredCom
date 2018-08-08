@@ -16,39 +16,17 @@ LRESULT Player::OnInitialized(UINT, WPARAM, LPARAM, BOOL&) {
     return 0;
 }
 
-LRESULT Player::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL & bHandled) {
-    if (s_created && m_source && m_timer != -1) {
-        
-        m_frame = nullptr;                   // Release frame, before we get a new one from the client. (1)
-        CHECK(m_source->GetFrame(&m_frame)); // This call may have to wait, if client is busy.          (2)
-        ATLASSERT(m_frame != nullptr);       // We are now guaranteed that m_frame is not null          (3)
-       
-        InvalidateRect(nullptr);             // Trigger a redraw                                        (4)
-    }
-    return 0;
-}
-
 LRESULT Player::OnPaint(UINT /*nMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-    std::wstringstream  ss;
-    if (m_frame) {                           // According to (3) above, m_frame can not be nullptr
-        int frameNo = 0;
-        CHECK(m_frame->GetId(&frameNo));
-
-        ss << "Showing frame " << frameNo;
-    }
-    else {                                   // Still, we sometimes end up here.
-                                             // This indicates that OnPaint is called while 
-                                             // OnTimer is executing m_source->GetFrame(...)
-        ss << "Ops, we don't have a frame (unstructured behavior)";
-    }
-
-    auto str = ss.str();
-
     PAINTSTRUCT ps = {};
     auto hdc = BeginPaint(&ps);
     FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_BACKGROUND));
-    TextOut(hdc, 0, 0, str.data(), static_cast<int>(str.size()));
+    std::wstring text;
+    if (m_frame)
+        text = L"We are playing!";
+    else
+        text = L"We are not playing";
+    TextOut(hdc, 0, 0, text.data(), static_cast<int>(text.size()));
     EndPaint(&ps);
     return 0L;
 }
@@ -74,15 +52,12 @@ HRESULT Player::Play() {
     if (m_frame_count == 0) 
         return S_OK; // Nothing to play
 
-    if (m_timer == -1)
-        SetTimer(m_timer = 1, 10, nullptr);
+    CHECK(m_source->GetFrame(&m_frame));
+    CHECK(InvalidateRect(nullptr));
     return S_OK;
 }
 
 HRESULT Player::Pause() {
-    if (m_timer != -1)
-        KillTimer(m_timer);
-    m_timer = -1;
     return S_OK;
 }
 
